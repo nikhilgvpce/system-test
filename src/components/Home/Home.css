@@ -1,0 +1,11 @@
+#header {
+    text-align: center;
+    width: 100%;
+    color: orange;
+}
+
+#newTask {
+    float: right;
+    padding-top: 35%;
+    margin-right: 2%;
+}
