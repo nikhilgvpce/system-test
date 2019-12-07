@@ -5,7 +5,7 @@ import {Button} from "react-bootstrap";
 class ShowTasks extends Component {
 
     deleteTask = (index) => {
-        this.props.deleteTask(index)
+        this.props.deleteTask(index);
     }
 
     render() {
