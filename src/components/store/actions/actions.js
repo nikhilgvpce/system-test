@@ -1,18 +1,14 @@
 const ActionTypes = {
-    DISPLAY_CARD : 'DISPLAY_CARD',
     DELETE_TASK : 'DELETE_TASK',
     EDIT_TASK : 'EDIT_TASK',
-    TOGGLE_EDIT_MODAL: 'TOGGLE_EDIT_MODAL',
+    TOGGLE_MODAL: 'TOGGLE_MODAL',
     REPLACE_TASK : 'REPLACE_TASK',
     ADD_TASK: 'ADD_TASK',
     MARK_AS_DONE: 'MARK_AS_DONE',
     REOPEN_TASK: 'REOPEN_TASK',
-    TOGGLE_ALERT: 'TOGGLE_ALERT'
+    TOGGLE_ALERT: 'TOGGLE_ALERT',
+    GROUP_BY: 'GROUP_BY'
 }
-
-export const displayCard = () => ({
-    type: ActionTypes.DISPLAY_CARD
-});
 
 export const deleteTask = (id) => ({
     type: ActionTypes.DELETE_TASK,
@@ -29,8 +25,8 @@ export const addTask = (task) => ({
     payload: task
 });
 
-export const toggleEditModal = () => ({
-    type: ActionTypes.TOGGLE_EDIT_MODAL
+export const toggleModal = () => ({
+    type: ActionTypes.TOGGLE_MODAL
 })
 
 export const selectedIndex = (index) => ({
@@ -54,5 +50,10 @@ export const reOpenTask = (task) => ({
 
 export const toggleAlert = () => ({
     type: ActionTypes.TOGGLE_ALERT
+})
+
+export const groupBy = (property) => ({
+    type: ActionTypes.GROUP_BY,
+    payload: property
 })
 

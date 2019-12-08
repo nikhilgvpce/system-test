@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Table, Button } from "react-bootstrap";
 import * as actions from "../store/actions/actions";
-import EditTask from "../EditTask/EditTask";
 
 class DoneTasks extends Component {
 
@@ -47,7 +46,6 @@ class DoneTasks extends Component {
                             {totalTasks}
                         </tbody>
                     </Table>
-                    <EditTask/>
                 </div> :
                 null
         );

@@ -5,35 +5,34 @@ import { connect } from 'react-redux';
 import CreateTask from "../CreateTask/CreateTask";
 import { Link, Route, Switch } from "react-router-dom";
 import ShowTasks from "../ShowTasks/ShowTasks";
-import { Alert, Button } from 'react-bootstrap';
 import AllTasks from "../AllTasks/AllTasks";
 import DoneTasks from "../DoneTasks/DoneTasks";
-import EditTask from "../EditTask/EditTask";
 
 
 class Home extends Component {
 
-    state = {
-        tasks: null
-    }
 
-    // componentWillMount() {
-    //     this.props.addTask("Sample Task");
-    // }
-    handleNewTask() {
-        this.props.displayCard();
-    }
-
-    handleDeleteTask() {
+    handleDeleteTask = () => {
         this.props.deleteTask();
     }
 
-   
+    handleSelectChange = (event) => {
+        this.props.groupBy(event.target.value);
+    }
+
+
     render() {
         return (
             <div>
                 <h1 id="header" >Welcome to ToDo App!</h1>
                 <header>
+                    <select id="dropdown" class="select-css" onChange={this.handleSelectChange}>
+                        <option defaultValue>Group By</option>
+                        <option>None</option>
+                        <option>Priority</option>
+                        <option>Created On</option>
+                        <option>Pending On</option>
+                    </select>
                     <nav>
                         <ul>
                             <li><Link to="/">All Tasks</Link></li>
@@ -58,16 +57,14 @@ class Home extends Component {
                     </div> */}
                     <Switch>
                         <Route path="/pending" exact component={ShowTasks} />
-                        <Route path="/edit" exact component={EditTask} />
+                        {/* <Route path="/edit" exact component={EditTask} /> */}
                         <Route path="/completed" exact component={DoneTasks} />
                         <Route path="/" exact component={AllTasks} />
                     </Switch>
                     <div id="newTask">
-                        <button id="addTaskButton" variant="primary" onClick={this.props.displayCard}>+</button>
+                        <button id="addTaskButton" variant="primary" onClick={this.props.toggleModal}>+</button>
                     </div>
-
-                    {/* <button onClick="handleDeleteTask()">-</button> */}
-                    <CreateTask showCard={this.props.showCard}></CreateTask>
+                    <CreateTask showModal={this.props.showModal}></CreateTask>
                 </div>
             </div>
         );
@@ -78,15 +75,16 @@ const mapDispatchToState = (state) => {
     return {
         allTasks: state.allTasks,
         tasks: state.tasks,
-        showCard: state.showCard
+        showModal: state.showModal
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         addTask: (task) => dispatch(actions.addTask(task)),
-        displayCard: () => dispatch(actions.displayCard()),
-        deleteTask: () => dispatch(actions.deleteTask())
+        toggleModal: () => dispatch(actions.toggleModal()),
+        deleteTask: () => dispatch(actions.deleteTask()),
+        groupBy : (property) => dispatch(actions.groupBy(property))
     }
 }
 

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import * as actions from "../store/actions/actions";
 import { connect } from 'react-redux';
-import Modal from "react-modal";
+// import Modal from "react-modal";
+import Modal from "../Modal/Modal";
 import DatePicker from "../DatePicker/DatePicker";
 import { Button, InputGroup, FormControl } from 'react-bootstrap';
 import "./EditTask.css";
@@ -16,7 +17,7 @@ class EditTask extends Component {
     }
 
     handleCloseModal = () => {
-        this.props.toggleEditModal();
+        this.props.toggleModal();
     }
 
     handleSelectChange = (event) => {
@@ -36,7 +37,7 @@ class EditTask extends Component {
     }
 
     handleSave = () => {
-        this.props.toggleEditModal();
+        this.props.toggleModal();
         const priority = this.state.priority;
         const summary = this.state.title;
         const createdDate = this.props.selectedTask.createdDate;
@@ -66,7 +67,7 @@ class EditTask extends Component {
         };
 
         return (
-            <Modal style={style} isOpen={this.props.showEditModal} onRequestClose={this.handleCloseModal}>
+            <Modal style={style} show={this.props.show} modalClosed={this.handleCloseModal}>
                 {this.props.selectedTask ?
                     <div>
                         <div id="title">
@@ -120,14 +121,14 @@ class EditTask extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleEditModal: () => dispatch(actions.toggleEditModal()),
+        toggleModal: () => dispatch(actions.toggleModal()),
         replaceTask: (task) => dispatch(actions.replaceTask(task))
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        showEditModal: state.showEditModal,
+        showModal: state.showModal,
         selectedTask: state.selectedTask
     }
 }

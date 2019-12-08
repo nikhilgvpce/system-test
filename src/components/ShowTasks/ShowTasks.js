@@ -13,7 +13,7 @@ class ShowTasks extends Component {
     handleEditClick = (task) => {
         // this.props.selectedIndex(index);
         this.props.editTask(task);
-        this.props.toggleEditModal();
+        this.props.toggleModal();
     }
 
     handleDoneClick = (task) => {
@@ -62,7 +62,7 @@ class ShowTasks extends Component {
                         {pendingTasks}
                     </tbody>
                 </Table>
-                <EditTask />
+                <EditTask show={this.props.showModal}/>
                 {/* <DoneTasks/> */}
             </div>
         );
@@ -71,14 +71,15 @@ class ShowTasks extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        showModal: state.showModal
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         deleteTask: (task) => dispatch(actions.deleteTask(task)),
-        toggleEditModal: () => dispatch(actions.toggleEditModal()),
+        toggleModal: () => dispatch(actions.toggleModal()),
         editTask: (task) => dispatch(actions.editTask(task)),
         markAsDone: (task) => dispatch(actions.markAsDone(task))
         // selectedIndex: (index) => dispatch(actions.selectedIndex(index))

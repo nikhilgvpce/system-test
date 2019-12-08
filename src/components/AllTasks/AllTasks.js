@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import * as actions from "../store/actions/actions";
 import { Button, Table } from "react-bootstrap";
 import EditTask from "../EditTask/EditTask";
-import Alert from "../Alert/Alert";
 
 class AllTasks extends Component {
 
@@ -14,7 +13,7 @@ class AllTasks extends Component {
     handleEditClick = (task) => {
         // this.props.selectedIndex(index);
         this.props.editTask(task);
-        this.props.toggleEditModal();
+        this.props.toggleModal();
     }
 
     handleDoneClick = (task) => {
@@ -54,10 +53,10 @@ class AllTasks extends Component {
 
         let doneTasks = this.props.doneTasks.map((task, key) => {
             return (
-                <tr key={key}>
+                <tr key={key} style={{backgroundColor: "green"}}>
                      { Object.keys(task).map(key => {
                         if (key !== "id" && key !== "description") {
-                            return <td style={{backgroundColor: "green"}}>{task[key]}</td>
+                            return <td>{task[key]}</td>
                         } else if (key === "id") {
                             return <td>
                                 <span>
@@ -88,7 +87,7 @@ class AllTasks extends Component {
                         {doneTasks}
                     </tbody>
                 </Table>
-                <EditTask/>
+                <EditTask show={this.props.showModal} />
             </div>
         );
     }
@@ -99,14 +98,14 @@ const mapStateToProps = (state) => {
         allTasks: state.allTasks,
         tasks: state.tasks,
         doneTasks: state.doneTasks,
-        showAlert: state.showAlert
+        showModal: state.showModal
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         deleteTask: (task) => dispatch(actions.deleteTask(task)),
-        toggleEditModal: () => dispatch(actions.toggleEditModal()),
+        toggleModal: () => dispatch(actions.toggleModal()),
         editTask: (task) => dispatch(actions.editTask(task)),
         markAsDone: (task) => dispatch(actions.markAsDone(task)),
         reOpenTask : (task) => dispatch(actions.reOpenTask(task))
