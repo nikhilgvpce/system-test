@@ -2,6 +2,9 @@
 
 # dependencies
 /node_modules
+/send
+/nikhil.zip
+/nikhil.7z
 
 # testing
 /coverage
