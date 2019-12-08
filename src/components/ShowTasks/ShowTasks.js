@@ -30,7 +30,7 @@ class ShowTasks extends Component {
             return (
                 <tr key={key} style={{backgroundColor: "yellow"}}>
                      { Object.keys(task).map(key => {
-                        if (key !== "id" && key !== "description") {
+                        if (key !== "id" && key !== "description" && key !== "status") {
                             return <td>{task[key]}</td>
                         } else if (key === "id") {
                             return <td>

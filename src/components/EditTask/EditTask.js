@@ -43,7 +43,8 @@ class EditTask extends Component {
         const createdDate = this.props.selectedTask.createdDate;
         const DueDate = this.state.dueDate ? this.state.dueDate : this.props.selectedTask.DueDate;
         const id = this.props.selectedTask.id;
-        const description = this.state.description ? this.state.description : this.props.description;
+        const description = this.state.description ? this.state.description : this.props.selectedTask.description;
+        const status = this.props.selectedTask.status;
         this.props.replaceTask(
             {
                 summary,
@@ -51,7 +52,8 @@ class EditTask extends Component {
                 createdDate,
                 DueDate,
                 description,
-                id
+                id,
+                status
             }
         );
     }

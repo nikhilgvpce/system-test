@@ -22,6 +22,7 @@ export const reducer = (state = initialState, action) => {
             const newAllTasks = [].concat(state.allTasks);
             let id = state.taskId;
             action.payload["id"] = id;
+            action.payload["status"] = "pending";
             return {
                 ...state,
                 allTasks: newAllTasks.concat(action.payload),
@@ -52,7 +53,6 @@ export const reducer = (state = initialState, action) => {
                 selectedTask: action.payload
             }
         case 'REPLACE_TASK':
-            // const updatedTasks = getUpdatedTasks(state.tasks, action.payload);
             let getIndx = findIndex(action.payload, state.tasks);
             const currentPending = state.tasks;
             currentPending[getIndx] = action.payload;
@@ -67,25 +67,36 @@ export const reducer = (state = initialState, action) => {
             }
         case 'MARK_AS_DONE':
             const oldTasks = [].concat(state.tasks);
-            const index = findIndex(action.payload, oldTasks);
+            let index = findIndex(action.payload, oldTasks);
             const markAsDoneTask = oldTasks.splice(index, 1);
+            markAsDoneTask['status'] = "done";
             let totalDoneTasks = [].concat(state.doneTasks);
+            let allTasksArr = [].concat(state.allTasks);
+            index = findIndex(action.payload, allTasksArr);
+            action.payload["status"] = "done";
+            allTasksArr[index] = action.payload;
             return {
                 ...state,
                 tasks: oldTasks,
+                allTasks: [].concat(allTasksArr),
                 doneTasks: totalDoneTasks.concat(markAsDoneTask)
             };
         case 'REOPEN_TASK':
             const doneTasks = state.doneTasks;
-            const i = findIndex(action.payload, doneTasks);
+            let i = findIndex(action.payload, doneTasks);
             doneTasks.splice(i, 1);
             const existingTasks = [].concat(state.tasks);
             const _id = state.taskId;
             action.payload["id"] = _id;
+            action.payload["status"] = "pending";
+            allTasksArr = [].concat(state.allTasks);
+            i = findIndex(action.payload, allTasksArr);
+            allTasksArr[i] = action.payload;
             return {
                 ...state,
                 tasks: existingTasks.concat(action.payload),
                 doneTasks: [].concat(doneTasks),
+                allTasks: [].concat(allTasksArr),
                 tasksId: _id + 1
             }
         case 'TOGGLE_ALERT':
@@ -100,7 +111,7 @@ export const reducer = (state = initialState, action) => {
             const grpByNoneDoneTasks = [].concat(state.grpByNoneDoneTasks);
             const grpByNoneTasks = [].concat(state.grpByNoneTasks);
             let allTasks = []; let completedTasks = []; let tasks = [];
-            if (groupByProperty === "High" || groupByProperty === "None" || groupByProperty === "Low" ) {
+            if (groupByProperty === "High" || groupByProperty === "None" || groupByProperty === "Low") {
                 allTasks = groupByPriority(state.allTasks, groupByProperty);
                 completedTasks = groupByPriority(state.doneTasks, groupByProperty);
                 tasks = groupByPriority(state.tasks, groupByProperty);
@@ -125,7 +136,7 @@ export const reducer = (state = initialState, action) => {
         case 'TOGGLE_EDIT_MODAL':
             return {
                 ...state,
-                showEditModal : !state.showEditModal
+                showEditModal: !state.showEditModal
             }
         default:
             return state
@@ -159,7 +170,7 @@ const groupByPriority = (tasks, property) => {
     });
     if (property === "High") {
         updatedTasks = [].concat(highPr, lowPr, noPr);
-    } else if(property === "Low") {
+    } else if (property === "Low") {
         updatedTasks = [].concat(lowPr, noPr, highPr);
     } else {
         updatedTasks = [].concat(noPr, lowPr, highPr);
@@ -190,15 +201,4 @@ const groupByDatePending = (a, b) => {
     } else {
         return 0;
     }
-}
-
-const getUpdatedTasks = (tasks, editedTask) => {
-    const id = editedTask.id;
-    const updatedTasks = tasks.map(task => {
-        if (task.id === id) {
-            task = editedTask;
-        }
-        return task;
-    });
-    return updatedTasks;
 }

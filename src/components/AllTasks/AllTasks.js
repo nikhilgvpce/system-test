@@ -11,7 +11,6 @@ class AllTasks extends Component {
     }
 
     handleEditClick = (task) => {
-        // this.props.selectedIndex(index);
         this.props.editTask(task);
         this.props.toggleEditModal();
     }
@@ -30,46 +29,46 @@ class AllTasks extends Component {
 
     render() {
 
-        let pendingTasks = this.props.tasks.map((task, key) => {
-            return (
-                <tr key={key} style={{backgroundColor: "yellow"}}>
-                     { Object.keys(task).map(key => {
-                        if (key !== "id" && key !== "description") {
-                            return <td>{task[key]}</td>
-                        } else if (key === "id") {
-                            return <td>
-                                <span>
-                                    <Button onClick={() => { this.handleEditClick(task) }} variant="secondary" style={{ margin: "5px" }}>View/Edit</Button>
-                                    <Button onClick={() => {this.handleDoneClick(task)}} variant="success" style={{ margin: "5px" }}>Done</Button>
-                                    <Button onClick={() => {this.handleDeleteClick(task)}} variant="danger" style={{ margin: "5px" }}>Delete</Button>
-                                </span>
-                            </td>
-                        }
-                    })}
-                </tr>
-            )
+        let allTasks = this.props.allTasks.map((task, key) => {
+            if (task['status'] === "pending") {
+                return (
+                    <tr key={key} style={{ backgroundColor: "yellow" }}>
+                        {Object.keys(task).map(key => {
+                            if (key !== "id" && key !== "description" && key !== "status") {
+                                return <td>{task[key]}</td>
+                            } else if (key === "id") {
+                                return <td>
+                                    <span>
+                                        <Button onClick={() => { this.handleEditClick(task) }} variant="secondary" style={{ margin: "5px" }}>View/Edit</Button>
+                                        <Button onClick={() => { this.handleDoneClick(task) }} variant="success" style={{ margin: "5px" }}>Done</Button>
+                                        <Button onClick={() => { this.handleDeleteClick(task) }} variant="danger" style={{ margin: "5px" }}>Delete</Button>
+                                    </span>
+                                </td>
+                            }
+                        })}
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr key={key} style={{ backgroundColor: "green" }}>
+                        {Object.keys(task).map(key => {
+                            if (key !== "id" && key !== "description" && key !== "status") {
+                                return <td>{task[key]}</td>
+                            } else if (key === "id") {
+                                return <td>
+                                    <span>
+                                        <Button onClick={() => { this.handleReOpenClick(task) }} variant="secondary" style={{ margin: "5px" }}>Re-open</Button>
+                                    </span>
+                                </td>
+                            }
+                        })}
+                    </tr>
+                )
+            }
         });
 
 
-        let doneTasks = this.props.doneTasks.map((task, key) => {
-            return (
-                <tr key={key} style={{backgroundColor: "green"}}>
-                     { Object.keys(task).map(key => {
-                        if (key !== "id" && key !== "description") {
-                            return <td>{task[key]}</td>
-                        } else if (key === "id") {
-                            return <td>
-                                <span>
-                                <Button onClick={() => { this.handleReOpenClick(task) }} variant="secondary" style={{ margin: "5px" }}>Re-open</Button>
-                                </span>
-                            </td>
-                        }
-                    })}
-                </tr>
-            )
-        });
-
-        let editTask = this.props.selectedTask ? <EditTask data={this.props.selectedTask} show={this.props.showEditModal}/> : null;
+        let editTask = this.props.selectedTask ? <EditTask data={this.props.selectedTask} show={this.props.showEditModal} /> : null;
 
         return (
             <div>
@@ -85,11 +84,9 @@ class AllTasks extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {pendingTasks}
-                        {doneTasks}
+                        {allTasks}
                     </tbody>
                 </Table>
-                {/* <EditTask show={this.props.showModal} /> */}
                 {editTask}
             </div>
         );
@@ -112,7 +109,7 @@ const mapDispatchToProps = dispatch => {
         toggleEditModal: () => dispatch(actions.toggleEditModal()),
         editTask: (task) => dispatch(actions.editTask(task)),
         markAsDone: (task) => dispatch(actions.markAsDone(task)),
-        reOpenTask : (task) => dispatch(actions.reOpenTask(task))
+        reOpenTask: (task) => dispatch(actions.reOpenTask(task))
         // selectedIndex: (index) => dispatch(actions.selectedIndex(index))
     }
 }
