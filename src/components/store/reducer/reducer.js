@@ -117,9 +117,9 @@ export const reducer = (state = initialState, action) => {
                 grpByNoneAllTasks: grpByNoneAllTasks.concat(state.allTasks),
                 grpByNoneDoneTasks: grpByNoneDoneTasks.concat(state.doneTasks),
                 grpByNoneTasks: grpByNoneTasks.concat(state.tasks),
-                tasks: tasks,
-                allTasks: allTasks,
-                doneTasks: completedTasks
+                tasks: [].concat(tasks),
+                allTasks: [].concat(allTasks),
+                doneTasks: [].concat(completedTasks)
             }
         default:
             return state
