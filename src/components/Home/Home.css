@@ -83,3 +83,10 @@ li {
 .select-css option {
     font-weight:normal;
 }
+
+.nav a:hover,
+.nav a:active,
+.nav a.active {
+    color: green
+}
+

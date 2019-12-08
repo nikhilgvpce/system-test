@@ -3,7 +3,7 @@ import "./Home.css";
 import * as actions from "../store/actions/actions";
 import { connect } from 'react-redux';
 import CreateTask from "../CreateTask/CreateTask";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch, NavLink } from "react-router-dom";
 import ShowTasks from "../ShowTasks/ShowTasks";
 import AllTasks from "../AllTasks/AllTasks";
 import DoneTasks from "../DoneTasks/DoneTasks";
@@ -33,18 +33,18 @@ class Home extends Component {
                         <option>Created On</option>
                         <option>Pending On</option>
                     </select>
-                    <nav>
+                    <nav className="nav">
                         <ul>
-                            <li><Link to="/">All Tasks</Link></li>
+                            <li><NavLink to="/" exact>All Tasks</NavLink></li>
                             <li>
-                                <Link to="/pending" >
+                                <NavLink to="/pending" >
                                     Pending Tasks
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link to="/completed">
+                                <NavLink to="/completed">
                                     Completed Tasks
-                                </Link>
+                                </NavLink>
                             </li>
                         </ul>
                     </nav>

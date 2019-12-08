@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import * as actions from "../store/actions/actions";
 import { connect } from 'react-redux';
-// import Modal from 'react-modal';
 import Modal from "../Modal/Modal";
 import { Button, InputGroup, FormControl } from 'react-bootstrap';
 import DatePicker from "../DatePicker/DatePicker";
