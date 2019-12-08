@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Table, Button } from "react-bootstrap";
 import * as actions from "../store/actions/actions";
+import EditTask from "../EditTask/EditTask";
 
 class DoneTasks extends Component {
 
@@ -14,7 +15,7 @@ class DoneTasks extends Component {
         if (this.props.doneTasks.length > 0) {
             totalTasks = this.props.doneTasks.map((task, key) => {
                 return (
-                    <tr key={key}>
+                    <tr key={key} style={{backgroundColor: "green"}}>
                         {Object.keys(task).map(key => {
                             if (key !== "id" && key !== "description") {
                                 return <td>{task[key]}</td>
@@ -46,6 +47,7 @@ class DoneTasks extends Component {
                             {totalTasks}
                         </tbody>
                     </Table>
+                    <EditTask/>
                 </div> :
                 null
         );

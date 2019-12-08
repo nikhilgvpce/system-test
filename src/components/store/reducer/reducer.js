@@ -4,7 +4,9 @@ const initialState = {
     showEditModal: false,
     showCard: false,
     selectedTask: null,
-    doneTasks: []
+    allTasks: [],
+    doneTasks: [],
+    showAlert: true
 }
 
 
@@ -17,10 +19,12 @@ export const reducer = (state = initialState, action) => {
             };
         case 'ADD_TASK':
             const newTasks = [].concat(state.tasks);
+            const allTasks = [].concat(state.allTasks);
             const id = state.tasks.length;
             action.payload["id"] = id;
             return {
                 ...state,
+                allTasks: allTasks.concat(action.payload),
                 tasks: newTasks.concat(action.payload)
             };
         case 'DELETE_TASK':
@@ -65,6 +69,12 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 tasks: existingTasks.concat(action.payload),
                 doneTasks: [].concat(doneTasks)
+            }
+        case 'TOGGLE_ALERT':
+            const show = state.allTasks.length === 0;
+            return {
+                ...state,
+                showAlert: show
             }
         default:
             return state

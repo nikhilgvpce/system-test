@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import * as actions from "../store/actions/actions";
 import { Button, Table } from "react-bootstrap";
 import EditTask from "../EditTask/EditTask";
+import Alert from "../Alert/Alert";
 
-class ShowTasks extends Component {
+class AllTasks extends Component {
 
     deleteTask = (index) => {
         this.props.deleteTask(index);
@@ -22,6 +23,10 @@ class ShowTasks extends Component {
 
     handleDeleteClick = (task) => {
         this.props.deleteTask(task);
+    }
+
+    handleReOpenClick = (task) => {
+        this.props.reOpenTask(task);
     }
 
     render() {
@@ -46,8 +51,28 @@ class ShowTasks extends Component {
             )
         });
 
+
+        let doneTasks = this.props.doneTasks.map((task, key) => {
+            return (
+                <tr key={key}>
+                     { Object.keys(task).map(key => {
+                        if (key !== "id" && key !== "description") {
+                            return <td style={{backgroundColor: "green"}}>{task[key]}</td>
+                        } else if (key === "id") {
+                            return <td>
+                                <span>
+                                <Button onClick={() => { this.handleReOpenClick(task) }} variant="secondary" style={{ margin: "5px" }}>Re-open</Button>
+                                </span>
+                            </td>
+                        }
+                    })}
+                </tr>
+            )
+        });
+
         return (
             <div>
+                {/* <Alert showAlert={this.props.showAlert} title="Add Task" alertContent="No tasks Aded, close to add tasks"/> */}
                 <Table id="task" striped bordered hover>
                     <thead>
                         <tr>
@@ -60,10 +85,10 @@ class ShowTasks extends Component {
                     </thead>
                     <tbody>
                         {pendingTasks}
+                        {doneTasks}
                     </tbody>
                 </Table>
-                <EditTask />
-                {/* <DoneTasks/> */}
+                <EditTask/>
             </div>
         );
     }
@@ -71,7 +96,10 @@ class ShowTasks extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks
+        allTasks: state.allTasks,
+        tasks: state.tasks,
+        doneTasks: state.doneTasks,
+        showAlert: state.showAlert
     }
 }
 
@@ -80,9 +108,10 @@ const mapDispatchToProps = dispatch => {
         deleteTask: (task) => dispatch(actions.deleteTask(task)),
         toggleEditModal: () => dispatch(actions.toggleEditModal()),
         editTask: (task) => dispatch(actions.editTask(task)),
-        markAsDone: (task) => dispatch(actions.markAsDone(task))
+        markAsDone: (task) => dispatch(actions.markAsDone(task)),
+        reOpenTask : (task) => dispatch(actions.reOpenTask(task))
         // selectedIndex: (index) => dispatch(actions.selectedIndex(index))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowTasks);
+export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);

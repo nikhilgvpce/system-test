@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import  {reducer} from "./components/store/reducer/reducer";
+import { reducer } from "./components/store/reducer/reducer";
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -15,5 +15,5 @@ const app = (
         <App />
     </Provider>
 )
-ReactDOM.render(app , document.getElementById('root'));
+ReactDOM.render(app, document.getElementById('root'));
 registerServiceWorker();

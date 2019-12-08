@@ -6,7 +6,8 @@ const ActionTypes = {
     REPLACE_TASK : 'REPLACE_TASK',
     ADD_TASK: 'ADD_TASK',
     MARK_AS_DONE: 'MARK_AS_DONE',
-    REOPEN_TASK: 'REOPEN_TASK'
+    REOPEN_TASK: 'REOPEN_TASK',
+    TOGGLE_ALERT: 'TOGGLE_ALERT'
 }
 
 export const displayCard = () => ({
@@ -49,5 +50,9 @@ export const markAsDone = (task) => ({
 export const reOpenTask = (task) => ({
     type: ActionTypes.REOPEN_TASK,
     payload: task
+})
+
+export const toggleAlert = () => ({
+    type: ActionTypes.TOGGLE_ALERT
 })
 
