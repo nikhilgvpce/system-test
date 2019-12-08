@@ -9,3 +9,17 @@
     padding-top: 35%;
     margin-right: 2%;
 }
+
+#addTaskButton {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 100%;
+    outline: none;
+}

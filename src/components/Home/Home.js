@@ -28,13 +28,13 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <h1 id="header" >Welcome to To App!</h1>
+                <h1 id="header" >Welcome to ToDo App!</h1>
                 <div>
                     <div style={{ margin: "10px" }}>
                         <ShowTasks></ShowTasks>
                     </div>
                     <div id="newTask">
-                        <Button variant="primary" onClick={this.props.displayCard}>New task</Button>
+                        <button id="addTaskButton" variant="primary" onClick={this.props.displayCard}>+</button>
                     </div>
                     {/* <button onClick="handleDeleteTask()">-</button> */}
                     <CreateTask showCard={this.props.showCard}></CreateTask>

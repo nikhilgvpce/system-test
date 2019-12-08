@@ -1,33 +1,83 @@
-import * as ActionTypes from "../actions/actions";
 
 const initialState = {
-    tasks: [{
-        summary: "sample task"
-    }],
-    showCard: false
+    tasks: [],
+    showEditModal: false,
+    showCard: false,
+    selectedTask: null,
+    doneTasks: []
 }
 
 
 export const reducer = (state = initialState, action) => {
-    switch (action.type) {   
+    switch (action.type) {
         case 'DISPLAY_CARD':
-                return {
-                    ...state,
-                    showCard: !state.showCard
-                };
+            return {
+                ...state,
+                showCard: !state.showCard
+            };
         case 'ADD_TASK':
             const newTasks = [].concat(state.tasks);
+            const id = state.tasks.length;
+            action.payload["id"] = id;
             return {
                 ...state,
                 tasks: newTasks.concat(action.payload)
             };
         case 'DELETE_TASK':
             const tasksList = [].concat(state.tasks);
+            tasksList.splice(action.payload.id, 1)
             return {
                 ...state,
-                tasks: tasksList.splice(1, action.payload)
+                tasks: tasksList
             };
+        case 'TOGGLE_EDIT_MODAL':
+            return {
+                ...state,
+                showEditModal: !state.showEditModal
+            }
+        case 'EDIT_TASK':
+            return {
+                ...state,
+                selectedTask: action.payload
+            }
+        case 'REPLACE_TASK':
+            const updatedTasks = getUpdatedTasks(state.tasks, action.payload);
+            return {
+                ...state,
+                tasks: updatedTasks
+            }
+        case 'MARK_AS_DONE':
+            const oldTasks = [].concat(state.tasks);
+            const doneTask = oldTasks.splice(action.payload.id, 1);
+            let totalDoneTasks = [].concat(state.doneTasks);
+            return {
+                ...state,
+                tasks: oldTasks,
+                doneTasks: totalDoneTasks.concat(doneTask)
+            };
+        case 'REOPEN_TASK':
+            const doneTasks = state.doneTasks;
+            doneTasks.splice(action.payload.id, 1);
+            const existingTasks = [].concat(state.tasks);
+            const _id = state.tasks.length;
+            action.payload["id"] = _id;
+            return {
+                ...state,
+                tasks: existingTasks.concat(action.payload),
+                doneTasks: [].concat(doneTasks)
+            }
         default:
             return state
     }
+}
+
+const getUpdatedTasks = (tasks, editedTask) => {
+    const id = editedTask.id;
+    const updatedTasks = tasks.map(task => {
+        if (task.id === id) {
+            task = editedTask;
+        }
+        return task;
+    });
+    return updatedTasks;
 }

@@ -1,8 +1,39 @@
-#card {
-    width: 150px;
-    padding: 20px;
-    box-sizing: border-box;
-    margin: 16px;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 2px #ccc;
+
+
+
+#title {
+    margin: 5px;
+    width: 70%;
+}
+
+textarea#styled {
+    width: 600px;
+	height: 120px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
+#taskButtons {
+    float: right;
+    margin: 5px;
+    bottom: 1%
+}
+
+#save, #cancel {
+    margin: 5px;
+}
+
+#priority {
+    margin: 5px;
+}
+
+#dateDiv {
+    float: left;
+}
+
+#datePicker {
+    float: left;
 }
