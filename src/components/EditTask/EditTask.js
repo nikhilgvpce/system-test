@@ -17,7 +17,7 @@ class EditTask extends Component {
     }
 
     handleCloseModal = () => {
-        this.props.toggleModal();
+        this.props.toggleEditModal();
     }
 
     handleSelectChange = (event) => {
@@ -37,13 +37,13 @@ class EditTask extends Component {
     }
 
     handleSave = () => {
-        this.props.toggleModal();
-        const priority = this.state.priority;
-        const summary = this.state.title;
+        this.props.toggleEditModal();
+        const priority = this.state.priority ? this.state.priority : this.props.selectedTask.priority;
+        const summary = this.state.title ? this.state.title : this.props.selectedTask.summary;
         const createdDate = this.props.selectedTask.createdDate;
-        const DueDate = this.state.dueDate;
+        const DueDate = this.state.dueDate ? this.state.dueDate : this.props.selectedTask.DueDate;
         const id = this.props.selectedTask.id;
-        const description = this.state.description
+        const description = this.state.description ? this.state.description : this.props.description;
         this.props.replaceTask(
             {
                 summary,
@@ -68,39 +68,40 @@ class EditTask extends Component {
 
         return (
             <Modal style={style} show={this.props.show} modalClosed={this.handleCloseModal}>
-                {this.props.selectedTask ?
-                    <div>
-                        <div id="title">
-                            <InputGroup className="mb-3" >
-                                <InputGroup.Prepend>
-                                    <InputGroup.Text id="basic-addon1">title</InputGroup.Text>
-                                </InputGroup.Prepend>
-                                <FormControl
-                                    placeholder="Enter Title"
-                                    aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    ref={(input) => this.textInput = input}
-                                    defaultValue={this.props.selectedTask.summary}
-                                    onChange={this.handleTitleChange}
-                                />
-                            </InputGroup>
+                {/* {this.props.selectedTask ? */}
+                <div>
+                    <div id="title">
+                        <InputGroup className="mb-3" >
+                            <InputGroup.Prepend>
+                                <InputGroup.Text id="basic-addon1">title</InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                                placeholder="Enter Title"
+                                aria-label="Username"
+                                aria-describedby="basic-addon1"
+                                ref={(input) => this.textInput = input}
+                                defaultValue={this.props.selectedTask.summary}
+                                onChange={this.handleTitleChange}
+                            />
+                        </InputGroup>
+                    </div>
+                    <textarea
+                        onChange={this.handleDescriptionChange}
+                        ref={(input) => this.textArea = input}
+                        defaultValue={this.props.selectedTask.description}
+                        id="styled" placeholder="Enter Description">
+                    </textarea>
+                    <div>Created at : {this.props.selectedTask.createdDate} </div>
+                    <div style={{ float: "left", margin: "10px" }}>
+                        <div id="dateDiv">Due Date : </div>
+                        <div id="datePicker">
+                            <DatePicker
+                                value={this.props.selectedTask.DueDate}
+                                setSelectedDate={this.handleSelectedDueChange}
+                            />
                         </div>
-                        <textarea
-                            onChange={this.handleDescriptionChange}
-                            ref={(input) => this.textArea = input}
-                            defaultValue={this.props.selectedTask.description}
-                            id="styled" placeholder="Enter Description">
-                        </textarea>
-                        <div>Created at : {this.props.selectedTask.createdDate} </div>
-                        <div id="dateDiv">
-                            <div>Due Date : </div>
-                            <div id="datePicker">
-                                <DatePicker
-                                    value={this.props.selectedTask.dueDate}
-                                    setSelectedDate={this.handleSelectedDueChange}
-                                />
-                            </div>
-                        </div>
+                    </div>
+                    <div style={{ margin: "10px" }}>
                         <label>Set Priority</label>
                         <select id="priority" defaultValue={this.props.selectedTask.priority} onChange={this.handleSelectChange}>
                             <option>Set Priority</option>
@@ -108,12 +109,12 @@ class EditTask extends Component {
                             <option value="Low">Low</option>
                             <option Value="None">None</option>
                         </select>
-                        <div id="taskButtons">
-                            <Button id="save" onClick={this.handleSave}>Save</Button>
-                            <Button id="cancel" onClick={this.handleCloseModal}>Cancel</Button>
-                        </div>
                     </div>
-                    : null}
+                    <div id="taskButtons">
+                        <Button id="save" onClick={this.handleSave}>Save</Button>
+                        <Button id="cancel" onClick={this.handleCloseModal}>Cancel</Button>
+                    </div>
+                </div>
             </Modal>
         )
     }
@@ -121,14 +122,14 @@ class EditTask extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleModal: () => dispatch(actions.toggleModal()),
+        toggleEditModal: () => dispatch(actions.toggleEditModal()),
         replaceTask: (task) => dispatch(actions.replaceTask(task))
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        showModal: state.showModal,
+        showEditModal: state.showEditModal,
         selectedTask: state.selectedTask
     }
 }

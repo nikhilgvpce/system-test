@@ -5,15 +5,9 @@ import Modal from "../Modal/Modal";
 import { Button, InputGroup, FormControl } from 'react-bootstrap';
 import DatePicker from "../DatePicker/DatePicker";
 import "./CreateTask.css";
+import { withRouter } from "react-router-dom";
 
 class CreateTask extends Component {
-
-    // const task = {
-    //     summary: String,
-    //     description: String,
-    //     Priority: String,
-    //     DueDate: String,
-    // }
 
     constructor(props) {
         super(props);
@@ -46,10 +40,15 @@ class CreateTask extends Component {
             );
         }
         this.props.toggleModal();
+        // this.setState({priority: 'Set Priority', date: null, dueDate: null});
+        // this.textArea.value = null;
+        // this.textInput.value = null;
+        this.props.history.push({pathname: "/"});
     }
 
     handleCloseModal = () => {
         this.props.toggleModal();
+        this.props.history.push({pathname: "/"});
     }
 
     handleSelectChange = (event) => {
@@ -89,10 +88,11 @@ class CreateTask extends Component {
                             aria-label="Username"
                             aria-describedby="basic-addon1"
                             ref={(input) => this.textInput = input}
+                            defaultValue={''}
                         />
                     </InputGroup>
                 </div>
-                <textarea ref={(input) => this.textArea = input} id="styled" placeholder="Enter Description"></textarea>
+                <textarea defaultValue={''} ref={(input) => this.textArea = input} id="styled" placeholder="Enter Description"></textarea>
                 <div>Created at : {this.getCurrentDate()} </div>
                 <div style={{ float: "left", margin: "10px" }}>
                     <div id="dateDiv">Due Date : </div>
@@ -137,4 +137,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTask);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateTask));

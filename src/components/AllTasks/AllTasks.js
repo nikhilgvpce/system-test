@@ -13,7 +13,7 @@ class AllTasks extends Component {
     handleEditClick = (task) => {
         // this.props.selectedIndex(index);
         this.props.editTask(task);
-        this.props.toggleModal();
+        this.props.toggleEditModal();
     }
 
     handleDoneClick = (task) => {
@@ -69,6 +69,8 @@ class AllTasks extends Component {
             )
         });
 
+        let editTask = this.props.selectedTask ? <EditTask data={this.props.selectedTask} show={this.props.showEditModal}/> : null;
+
         return (
             <div>
                 {/* <Alert showAlert={this.props.showAlert} title="Add Task" alertContent="No tasks Aded, close to add tasks"/> */}
@@ -87,7 +89,8 @@ class AllTasks extends Component {
                         {doneTasks}
                     </tbody>
                 </Table>
-                <EditTask show={this.props.showModal} />
+                {/* <EditTask show={this.props.showModal} /> */}
+                {editTask}
             </div>
         );
     }
@@ -98,14 +101,15 @@ const mapStateToProps = (state) => {
         allTasks: state.allTasks,
         tasks: state.tasks,
         doneTasks: state.doneTasks,
-        showModal: state.showModal
+        showEditModal: state.showEditModal,
+        selectedTask: state.selectedTask
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         deleteTask: (task) => dispatch(actions.deleteTask(task)),
-        toggleModal: () => dispatch(actions.toggleModal()),
+        toggleEditModal: () => dispatch(actions.toggleEditModal()),
         editTask: (task) => dispatch(actions.editTask(task)),
         markAsDone: (task) => dispatch(actions.markAsDone(task)),
         reOpenTask : (task) => dispatch(actions.reOpenTask(task))

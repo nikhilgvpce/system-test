@@ -11,6 +11,7 @@ const initialState = {
     grpByNoneAllTasks: [],
     grpByNoneDoneTasks: [],
     grpByNoneTasks: [],
+    showEditModal: false
 }
 
 
@@ -27,7 +28,7 @@ export const reducer = (state = initialState, action) => {
                 tasks: newTasks.concat(action.payload),
                 taskId: id + 1
             };
-           
+
         case 'DELETE_TASK':
             const tasksList = [].concat(state.tasks);
             const allTasksList = [].concat(state.allTasks);
@@ -99,10 +100,10 @@ export const reducer = (state = initialState, action) => {
             const grpByNoneDoneTasks = [].concat(state.grpByNoneDoneTasks);
             const grpByNoneTasks = [].concat(state.grpByNoneTasks);
             let allTasks = []; let completedTasks = []; let tasks = [];
-            if (groupByProperty === "Priority") {
-                allTasks = groupByPriority(state.allTasks);
-                completedTasks = groupByPriority(state.doneTasks);
-                tasks = groupByPriority(state.tasks);
+            if (groupByProperty === "High" || groupByProperty === "None" || groupByProperty === "Low" ) {
+                allTasks = groupByPriority(state.allTasks, groupByProperty);
+                completedTasks = groupByPriority(state.doneTasks, groupByProperty);
+                tasks = groupByPriority(state.tasks, groupByProperty);
             } else if (groupByProperty === "Created On") {
                 allTasks = state.allTasks.sort(groupByDate);
                 completedTasks = state.doneTasks.sort(groupByDate);
@@ -121,6 +122,11 @@ export const reducer = (state = initialState, action) => {
                 allTasks: [].concat(allTasks),
                 doneTasks: [].concat(completedTasks)
             }
+        case 'TOGGLE_EDIT_MODAL':
+            return {
+                ...state,
+                showEditModal : !state.showEditModal
+            }
         default:
             return state
     }
@@ -128,17 +134,20 @@ export const reducer = (state = initialState, action) => {
 
 const findIndex = (task, taskList) => {
     let indx = -1;
-    const index = taskList.find((t, index) => {
+    taskList.find((t, index) => {
         if (t.id === task.id) {
             return indx = index;
-        } });
+        }
+    });
     return indx;
 }
 
-const groupByPriority = (tasks) => {
+
+const groupByPriority = (tasks, property) => {
     const highPr = [];
     const lowPr = [];
     const noPr = [];
+    let updatedTasks;
     tasks.forEach(task => {
         if (task.priority === "High") {
             highPr.push(task)
@@ -148,7 +157,13 @@ const groupByPriority = (tasks) => {
             noPr.push(task);
         }
     });
-    const updatedTasks = [].concat(highPr, lowPr, noPr);
+    if (property === "High") {
+        updatedTasks = [].concat(highPr, lowPr, noPr);
+    } else if(property === "Low") {
+        updatedTasks = [].concat(lowPr, noPr, highPr);
+    } else {
+        updatedTasks = [].concat(noPr, lowPr, highPr);
+    }
     return updatedTasks;
 }
 

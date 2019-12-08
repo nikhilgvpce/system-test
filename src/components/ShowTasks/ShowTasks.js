@@ -25,7 +25,7 @@ class ShowTasks extends Component {
     }
 
     render() {
-
+        let editTask = this.props.selectedTask ? <EditTask data={this.props.selectedTask} show={this.props.showEditModal}/> : null;
         let pendingTasks = this.props.tasks.map((task, key) => {
             return (
                 <tr key={key} style={{backgroundColor: "yellow"}}>
@@ -62,7 +62,8 @@ class ShowTasks extends Component {
                         {pendingTasks}
                     </tbody>
                 </Table>
-                <EditTask show={this.props.showModal}/>
+                {/* <EditTask show={this.props.showModal}/> */}
+                {editTask}
                 {/* <DoneTasks/> */}
             </div>
         );
@@ -72,7 +73,8 @@ class ShowTasks extends Component {
 const mapStateToProps = (state) => {
     return {
         tasks: state.tasks,
-        showModal: state.showModal
+        showEditModal: state.showEditModal,
+        selectedTask: state.selectedTask
     }
 }
 

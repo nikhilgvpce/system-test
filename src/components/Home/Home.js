@@ -29,7 +29,8 @@ class Home extends Component {
                     <select id="dropdown" class="select-css" onChange={this.handleSelectChange}>
                         <option defaultValue>Group By</option>
                         <option>None</option>
-                        <option>Priority</option>
+                        <option>High</option>
+                        <option>Low</option>
                         <option>Created On</option>
                         <option>Pending On</option>
                     </select>
@@ -59,12 +60,17 @@ class Home extends Component {
                         <Route path="/pending" exact component={ShowTasks} />
                         {/* <Route path="/edit" exact component={EditTask} /> */}
                         <Route path="/completed" exact component={DoneTasks} />
+                        <Route path="/create" exact component={CreateTask} />
                         <Route path="/" exact component={AllTasks} />
                     </Switch>
                     <div id="newTask">
-                        <button id="addTaskButton" variant="primary" onClick={this.props.toggleModal}>+</button>
+                        <Link to="/create">
+                            <button id="addTaskButton" variant="primary" onClick={this.props.toggleModal}>
+                                +
+                       </button>
+                        </Link>
                     </div>
-                    <CreateTask showModal={this.props.showModal}></CreateTask>
+                    {/* <CreateTask showModal={this.props.showModal}></CreateTask> */}
                 </div>
             </div>
         );
@@ -84,7 +90,7 @@ const mapDispatchToProps = dispatch => {
         addTask: (task) => dispatch(actions.addTask(task)),
         toggleModal: () => dispatch(actions.toggleModal()),
         deleteTask: () => dispatch(actions.deleteTask()),
-        groupBy : (property) => dispatch(actions.groupBy(property))
+        groupBy: (property) => dispatch(actions.groupBy(property))
     }
 }
 

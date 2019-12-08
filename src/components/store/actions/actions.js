@@ -7,7 +7,8 @@ const ActionTypes = {
     MARK_AS_DONE: 'MARK_AS_DONE',
     REOPEN_TASK: 'REOPEN_TASK',
     TOGGLE_ALERT: 'TOGGLE_ALERT',
-    GROUP_BY: 'GROUP_BY'
+    GROUP_BY: 'GROUP_BY',
+    TOGGLE_EDIT_MODAL : 'TOGGLE_EDIT_MODAL'
 }
 
 export const deleteTask = (id) => ({
@@ -57,3 +58,6 @@ export const groupBy = (property) => ({
     payload: property
 })
 
+export const toggleEditModal = () => ({
+    type: ActionTypes.TOGGLE_EDIT_MODAL
+})
